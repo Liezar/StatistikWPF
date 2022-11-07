@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,12 +14,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 namespace WpfApp1
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -25,35 +25,17 @@ namespace WpfApp1
             InitializeComponent();
         }
 
-        private int[] JsonData()
+        private void BtnData_Click(object sender, RoutedEventArgs e)
         {
-            //Json filen måste ligga i användare och den måste heta data.json
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/data.json");
-            string jsonString = File.ReadAllText(filePath);
-            int[] import = JsonConvert.DeserializeObject<int[]>(jsonString);
-            return import;
-        }
-
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txtName.Text) && !lstNames.Items.Contains(txtName.Text))
+            foreach (KeyValuePair<string, object> kvp in Statistics.DescriptiveStatistics()) // Skriver ut resultatet från Dictionary.
             {
-                lstNames.Items.Add(txtName.Text);
-                txtName.Clear();
+                lstNames.Items.Add($"{kvp.Key}: {kvp.Value}");
             }
         }
 
-        private void TxtName_KeyDown(object sender, KeyEventArgs e)
+        private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                lstNames.Items.Add(txtName.Text);
-                txtName.Clear();
-            }
-        }
-
-        private void btnData_Click(object sender, RoutedEventArgs e)
-        {
+            lstNames.Items.Clear();
         }
     }
 }
