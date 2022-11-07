@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace WpfApp1
 {
     public class Statistics
     {
-
         //Läser in json-filen och sparar det i en array som används i resten av programmet.
         private static int[] _jsonNumbers
         {
